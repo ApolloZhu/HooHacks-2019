@@ -42,6 +42,13 @@ import com.google.ar.sceneform.rendering.ViewSizer;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * This is an example activity that uses the Sceneform UX package to make common AR tasks easier.
  */
@@ -52,6 +59,8 @@ public class HelloSceneformActivity extends AppCompatActivity {
     private ArFragment arFragment;
     private ViewRenderable mapRenderable;
     private float planeX, planeZ;
+
+    private GoogleMap mMap;
 
     @Override
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -70,14 +79,14 @@ public class HelloSceneformActivity extends AppCompatActivity {
         // When you build a Renderable, Sceneform loads its resources in the background while returning
         // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
         ViewRenderable.builder()
-                .setView(this, R.layout.map_view)
-                .setSizer(new ViewSizer() {
-                    @Override
-                    public Vector3 getSize(View view) {
-                        view.setLayoutParams(new FrameLayout.LayoutParams((int)(planeX * 250), (int)(planeZ * 250)));
-                        return new Vector3(planeX, 0, planeZ);
-                    }
-                })
+                .setView(this, R.layout.activity_maps)
+//                .setSizer(new ViewSizer() {
+//                    @Override
+//                    public Vector3 getSize(View view) {
+////                        view.setLayoutParams(new FrameLayout.LayoutParams((int)(planeX * 250), (int)(planeZ * 250)));
+//                        return new Vector3(planeX, 0, planeZ);
+//                    }
+//                })
                 .build()
                 .thenAccept(renderable -> mapRenderable = renderable);
 
