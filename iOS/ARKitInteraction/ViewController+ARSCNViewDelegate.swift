@@ -22,12 +22,6 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             self.updateFocusSquare(isObjectVisible: isAnyObjectInView)
         }
         
-        // If the object selection menu is open, update availability of items
-        if objectsViewController != nil {
-            let planeAnchor = focusSquare.currentPlaneAnchor
-            objectsViewController?.updateObjectAvailability(for: planeAnchor)
-        }
-        
         // If light estimation is enabled, update the intensity of the directional lights
         if let lightEstimate = session.currentFrame?.lightEstimate {
             sceneView.updateDirectionalLighting(intensity: lightEstimate.ambientIntensity, queue: updateQueue)

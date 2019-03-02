@@ -137,7 +137,7 @@ extension ARCamera.TrackingState {
         case .notAvailable:
             return "NOT WORKING!?"
         case .normal:
-            return "Everything Working"
+            return "Ready ^_^"
         case .limited(.excessiveMotion):
             return "You are moving too fast!"
         case .limited(.insufficientFeatures):

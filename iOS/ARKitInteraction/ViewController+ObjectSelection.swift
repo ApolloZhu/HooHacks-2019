@@ -15,6 +15,7 @@ extension ViewController {
      
      - Tag: PlaceVirtualObject
      */
+    /*
     func placeVirtualObject(_ virtualObject: VirtualObject) {
         guard focusSquare.state != .initializing else {
             statusViewController.showMessage("CANNOT PLACE OBJECT\nTry moving left or right.")
@@ -32,6 +33,7 @@ extension ViewController {
             self.sceneView.addOrUpdateAnchor(for: virtualObject)
         }
     }
+     */
     
     // MARK: - VirtualObjectSelectionViewControllerDelegate
     
@@ -40,7 +42,7 @@ extension ViewController {
             self.sceneView.prepare([object], completionHandler: { _ in
                 DispatchQueue.main.async {
                     self.hideObjectLoadingUI()
-                    self.placeVirtualObject(loadedObject)
+                    // self.placeVirtualObject(loadedObject)
                     loadedObject.isHidden = false
                 }
             })
@@ -66,9 +68,8 @@ extension ViewController {
         // Show progress indicator.
         spinner.startAnimating()
         
-        addObjectButton.setImage(#imageLiteral(resourceName: "buttonring"), for: [])
-
-        addObjectButton.isEnabled = false
+        // addObjectButton.setImage(#imageLiteral(resourceName: "buttonring"), for: [])
+        // addObjectButton.isEnabled = false
         isRestartAvailable = false
     }
 
@@ -76,10 +77,9 @@ extension ViewController {
         // Hide progress indicator.
         spinner.stopAnimating()
 
-        addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
-        addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
-
-        addObjectButton.isEnabled = true
+        // addObjectButton.setImage(#imageLiteral(resourceName: "add"), for: [])
+        // addObjectButton.setImage(#imageLiteral(resourceName: "addPressed"), for: [.highlighted])
+        // addObjectButton.isEnabled = true
         isRestartAvailable = true
     }
 }
