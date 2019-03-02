@@ -52,7 +52,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * This is an example activity that uses the Sceneform UX package to make common AR tasks easier.
  */
-public class HelloSceneformActivity extends AppCompatActivity {
+public class HelloSceneformActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final String TAG = HelloSceneformActivity.class.getSimpleName();
     private static final double MIN_OPENGL_VERSION = 3.0;
 
@@ -104,6 +104,17 @@ public class HelloSceneformActivity extends AppCompatActivity {
                     mapNode.setRenderable(mapRenderable);
                     mapNode.select();
                 });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+
+        // Add a marker in Sydney and move the camera
+        LatLng uva = new LatLng(38.0335788, -78.5099539);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.addMarker(new MarkerOptions().position(uva).title("here at UVA"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(uva));
     }
 
     /**
