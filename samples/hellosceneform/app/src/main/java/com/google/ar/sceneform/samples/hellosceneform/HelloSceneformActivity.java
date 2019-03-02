@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.MapView;
@@ -50,7 +51,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
     private ArFragment arFragment;
     private ViewRenderable mapRenderable;
-    private Plane plane;
+    private float planeX, planeZ;
 
     @Override
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -70,12 +71,20 @@ public class HelloSceneformActivity extends AppCompatActivity {
         // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
         ViewRenderable.builder()
                 .setView(this, R.layout.map_view)
+                .setSizer(new ViewSizer() {
+                    @Override
+                    public Vector3 getSize(View view) {
+                        view.setLayoutParams(new FrameLayout.LayoutParams((int)(planeX * 250), (int)(planeZ * 250)));
+                        return new Vector3(planeX, 0, planeZ);
+                    }
+                })
                 .build()
                 .thenAccept(renderable -> mapRenderable = renderable);
 
         arFragment.setOnTapArPlaneListener(
                 (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
-                    this.plane = plane;
+                    this.planeX = plane.getExtentX();
+                    this.planeZ = plane.getExtentZ();
                     // Create the Anchor.
                     Anchor anchor = hitResult.createAnchor();
                     AnchorNode anchorNode = new AnchorNode(anchor);
