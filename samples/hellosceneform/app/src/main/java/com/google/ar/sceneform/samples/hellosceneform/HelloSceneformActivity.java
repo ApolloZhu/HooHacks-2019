@@ -26,11 +26,15 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.MapView;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
 import com.google.ar.core.Plane;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.Renderable;
+import com.google.ar.sceneform.rendering.ViewRenderable;
 import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
@@ -42,6 +46,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
   private static final double MIN_OPENGL_VERSION = 3.0;
 
   private ArFragment arFragment;
+  private Renderable mapRenderable;
 
   @Override
   @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -56,8 +61,13 @@ public class HelloSceneformActivity extends AppCompatActivity {
 
     setContentView(R.layout.activity_ux);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
+      ViewRenderable.builder()
+              .setView(this, R.layout.map_view)
+              .build()
+              .thenAccept(renderable -> mapRenderable = renderable);
 
-    // When you build a Renderable, Sceneform loads its resources in the background while returning
+
+      // When you build a Renderable, Sceneform loads its resources in the background while returning
     // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
 
     arFragment.setOnTapArPlaneListener(
@@ -68,10 +78,10 @@ public class HelloSceneformActivity extends AppCompatActivity {
           anchorNode.setParent(arFragment.getArSceneView().getScene());
 
           // Create the transformable andy and add it to the anchor.
-          TransformableNode andy = new TransformableNode(arFragment.getTransformationSystem());
-          andy.setParent(anchorNode);
-          // TODO: andy.setRenderable(andyRenderable);
-          andy.select();
+          TransformableNode mapNode = new TransformableNode(arFragment.getTransformationSystem());
+          mapNode.setParent(anchorNode);
+          mapNode.setRenderable(mapRenderable);
+          mapNode.select();
         });
   }
 
