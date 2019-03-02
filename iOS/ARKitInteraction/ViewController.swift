@@ -15,8 +15,6 @@ class ViewController: UIViewController {
     
     @IBOutlet var sceneView: VirtualObjectARView!
     
-    @IBOutlet weak var addObjectButton: UIButton!
-    
     @IBOutlet weak var blurView: UIVisualEffectView!
     
     @IBOutlet weak var spinner: UIActivityIndicatorView!
@@ -29,9 +27,6 @@ class ViewController: UIViewController {
     lazy var statusViewController: StatusViewController = {
         return childViewControllers.lazy.compactMap({ $0 as? StatusViewController }).first!
     }()
-    
-    /// The view controller that displays the virtual object selection menu.
-    var objectsViewController: VirtualObjectSelectionViewController?
     
     // MARK: - ARKit Configuration Properties
     
@@ -128,7 +123,7 @@ class ViewController: UIViewController {
         }
         session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
 
-        statusViewController.scheduleMessage("FIND A SURFACE TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .planeEstimation)
+        statusViewController.scheduleMessage("FIND A SURFACE TO PLACE THE MAP", inSeconds: 7.5, messageType: .planeEstimation)
     }
 
     // MARK: - Focus Square
@@ -148,14 +143,12 @@ class ViewController: UIViewController {
                 self.sceneView.scene.rootNode.addChildNode(self.focusSquare)
                 self.focusSquare.state = .detecting(hitTestResult: result, camera: camera)
             }
-            addObjectButton.isHidden = false
             statusViewController.cancelScheduledMessage(for: .focusSquare)
         } else {
             updateQueue.async {
                 self.focusSquare.state = .initializing
                 self.sceneView.pointOfView?.addChildNode(self.focusSquare)
             }
-            addObjectButton.isHidden = true
         }
     }
     

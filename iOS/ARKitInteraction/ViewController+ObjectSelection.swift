@@ -8,7 +8,7 @@ Methods on the main view controller for handling virtual object loading and move
 import UIKit
 import ARKit
 
-extension ViewController: VirtualObjectSelectionViewControllerDelegate {
+extension ViewController {
     /**
      Adds the specified virtual object to the scene, placed at the world-space position
      estimated by a hit test from the center of the screen.
@@ -35,7 +35,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
     
     // MARK: - VirtualObjectSelectionViewControllerDelegate
     
-    func virtualObjectSelectionViewController(_: VirtualObjectSelectionViewController, didSelectObject object: VirtualObject) {
+    func virtualObjectSelectionViewController(didSelectObject object: VirtualObject) {
         virtualObjectLoader.loadVirtualObject(object, loadedHandler: { [unowned self] loadedObject in
             self.sceneView.prepare([object], completionHandler: { _ in
                 DispatchQueue.main.async {
@@ -49,7 +49,7 @@ extension ViewController: VirtualObjectSelectionViewControllerDelegate {
         displayObjectLoadingUI()
     }
     
-    func virtualObjectSelectionViewController(_: VirtualObjectSelectionViewController, didDeselectObject object: VirtualObject) {
+    func virtualObjectSelectionViewController(didDeselectObject object: VirtualObject) {
         guard let objectIndex = virtualObjectLoader.loadedObjects.index(of: object) else {
             fatalError("Programmer error: Failed to lookup virtual object in scene.")
         }

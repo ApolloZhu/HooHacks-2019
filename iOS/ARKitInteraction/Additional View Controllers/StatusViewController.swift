@@ -17,18 +17,11 @@ import ARKit
 class StatusViewController: UIViewController {
     // MARK: - Types
 
-    enum MessageType {
+    enum MessageType: CaseIterable {
         case trackingStateEscalation
         case planeEstimation
         case contentPlacement
         case focusSquare
-
-        static var all: [MessageType] = [
-            .trackingStateEscalation,
-            .planeEstimation,
-            .contentPlacement,
-            .focusSquare
-        ]
     }
 
     // MARK: - IBOutlets
@@ -87,7 +80,7 @@ class StatusViewController: UIViewController {
     }
 
     func cancelAllScheduledMessages() {
-        for messageType in MessageType.all {
+        for messageType in MessageType.allCases {
             cancelScheduledMessage(for: messageType)
         }
     }
@@ -142,15 +135,15 @@ extension ARCamera.TrackingState {
     var presentationString: String {
         switch self {
         case .notAvailable:
-            return "TRACKING UNAVAILABLE"
+            return "NOT WORKING!?"
         case .normal:
-            return "TRACKING NORMAL"
+            return "Everything Working"
         case .limited(.excessiveMotion):
-            return "TRACKING LIMITED\nExcessive motion"
+            return "You are moving too fast!"
         case .limited(.insufficientFeatures):
-            return "TRACKING LIMITED\nLow detail"
+            return "We can't find a surface?"
         case .limited(.initializing):
-            return "Initializing"
+            return "Initializing..."
         case .limited(.relocalizing):
             return "Recovering from interruption"
         }
