@@ -61,6 +61,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
     private float planeX, planeZ;
 
     private GoogleMap mMap;
+    private boolean hasMap = false;
 
     @Override
     @SuppressWarnings({"AndroidApiChecker", "FutureReturnValueIgnored"})
@@ -80,18 +81,16 @@ public class HelloSceneformActivity extends AppCompatActivity {
         // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
         ViewRenderable.builder()
                 .setView(this, R.layout.activity_maps)
-//                .setSizer(new ViewSizer() {
-//                    @Override
-//                    public Vector3 getSize(View view) {
-////                        view.setLayoutParams(new FrameLayout.LayoutParams((int)(planeX * 250), (int)(planeZ * 250)));
-//                        return new Vector3(planeX, 0, planeZ);
-//                    }
-//                })
                 .build()
-                .thenAccept(renderable -> mapRenderable = renderable);
+                .thenAccept(renderable -> {
+                    mapRenderable = renderable;
+                    ((MapView) renderable.getView()).getMapAsync(new MapsActivity());
+                });
 
         arFragment.setOnTapArPlaneListener(
                 (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
+                    if (hasMap) return;
+                    hasMap = true;
                     this.planeX = plane.getExtentX();
                     this.planeZ = plane.getExtentZ();
                     // Create the Anchor.
