@@ -11,6 +11,7 @@ import UIKit
 // HOOHACKS
 import MapKit
 import CoreLocation
+import SWXMLHash
 // HOOHACKS
 
 class ViewController: UIViewController {
@@ -68,14 +69,14 @@ class ViewController: UIViewController {
     }
     
     private func displayInformationForHouse(at street: String, in cityState: String) {
-        var urlString = "" // Same as how you add strings together in java
+        var urlString = "https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address="+street+"&citystatezip="+cityState
         urlString = urlString
             .replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! // Change , to %2C
         guard let url = URL(string: "") else { return debugPrint("Not valid url") }
         URLSession.shared.dataTask(with: url) { data,_,err in
             guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
-            #warning("Sirena, process XML data here")
+            let xml = SWXMLHash.parse(data)
         }.resume()
     }
     // HOOHACKS
