@@ -133,7 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				52C1083A222BE6DA00566417 /* Google Cloud Platform */,
-				52BEF012222BBD07003A7C15 /* HooHacks */,
+				52BEF012222BBD07003A7C15 /* Zillow */,
 				3929C48D1E89EC2C00E00B60 /* ViewController.swift */,
 				C8C12A701F29277B00B011FE /* ViewController+ARSCNViewDelegate.swift */,
 				1488323E1EFC378A0043E0AB /* ViewController+Actions.swift */,
@@ -157,12 +157,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		52BEF012222BBD07003A7C15 /* HooHacks */ = {
+		52BEF012222BBD07003A7C15 /* Zillow */ = {
 			isa = PBXGroup;
 			children = (
 				52BEF013222BBD62003A7C15 /* HouseInfoViewController.swift */,
 				FAC0A3BC222BD06700E915F2 /* HouseInfo.swift */,
 			);
+			name = Zillow;
 			path = HooHacks;
 			sourceTree = "<group>";
 		};

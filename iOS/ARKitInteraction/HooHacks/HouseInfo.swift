@@ -44,8 +44,8 @@ extension HouseInfo {
         let sqft: Int
     }
     
-    public static func fetchInformationOfHouse(at street: String, in cityState: String,
-                                               then process: @escaping (HouseInfo.Highlight?) -> Void) {
+    public static func ofHouse(at street: String, in cityState: String,
+                               then process: @escaping (HouseInfo.Highlight?) -> Void) {
         func errored(_ reason: String) { debugPrint(reason);process(nil)  }
         
         let urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address=\(street)&citystatezip=\(cityState)"

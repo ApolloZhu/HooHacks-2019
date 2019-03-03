@@ -62,14 +62,14 @@ class ViewController: UIViewController {
                     && isValid($0.locality)
                     && isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
-            self.fetchInformationOfHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
-                                         in: placemark.locality! + ", " + placemark.administrativeArea!)
+            let street = placemark.subThoroughfare! + " " + placemark.thoroughfare!
+            HouseInfo.ofHouse(at: street, in: placemark.locality! + ", " + placemark.administrativeArea!) {
+                [weak self] in self?.processHouse($0, at: street)
+            }
         }
     }
     
-    
-    
-    private func processHouse(_ house: House?, at street: String) {
+    private func processHouse(_ house: HouseInfo.Highlight?, at street: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             defer { self.fpc.move(to: .tip, animated: true) }
