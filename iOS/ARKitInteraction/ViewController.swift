@@ -62,16 +62,13 @@ class ViewController: UIViewController {
                 isValid($0.locality) &&
                 isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
-            let streetName = "\(placemark.subThoroughfare!) \(placemark.thoroughfare!)"
-            self.displayInformationForHouse(at: streetName,
-                                            in: placemark.locality!,
-                                            placemark.administrativeArea!)
+            self.displayInformationForHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
+                                            in: placemark.locality! + ", " + placemark.administrativeArea!)
         }
     }
     
-    private func displayInformationForHouse(at street: String, in city: String, _ state: String) {
-        #warning("Sirena, construct request URL in the following line. Don't worry about %2C or +")
-        var urlString = street + "," + city + "," + state
+    private func displayInformationForHouse(at street: String, in cityState: String) {
+        var urlString = "" // Same as how you add strings together in java
         urlString = urlString
             .replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
             .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! // Change , to %2C
