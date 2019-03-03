@@ -11,7 +11,7 @@ import Foundation
 import ARCore
 import Firebase
 
-let db = Firestore.firestore()
+let db = Database.database().reference()
 
 extension CloudAnchorManager {
     public static let `default` = try! CloudAnchorManager(session: GARSession(
@@ -35,13 +35,34 @@ extension ViewController {
         safely { try CloudAnchorManager.default.session.update(frame) }
     }
     
-    func host(_ anchor: ARAnchor) -> GARAnchor? {
-        return safely { try CloudAnchorManager.default.session.hostCloudAnchor(anchor) }
+    func startGroup(withID gID: String, using anchor: ARPlaneAnchor) {
+        do {
+            let hosted = try CloudAnchorManager.default.session.hostCloudAnchor(anchor)
+            db.child("hotspot_list").child(gID).child("hosted_anchor_id").setValue(hosted.cloudIdentifier)
+        } catch {
+            debugPrint(error)
+        }
     }
     
-    func retreiveCloudAnchor(withID id: String) -> GARAnchor? {
-        return safely { try CloudAnchorManager.default.session
-            .resolveCloudAnchor(withIdentifier: id) }
+    func joinGroup(withID gID: String) {
+        db.child("hotspot_list").child(gID).observe(DataEventType.value, with: { [weak self] snapshot in
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self,
+                    let dict = snapshot.value as? [String: String],
+                    let id = dict["hosted_anchor_id"]
+                    else { return debugPrint("No anchor id") }
+                do {
+                    let anchor = try CloudAnchorManager.default.session
+                        .resolveCloudAnchor(withIdentifier: id)
+                    db.child("hotspot_list").child(gID).removeAllObservers()
+                    let planeAnchor = ARPlaneAnchor(anchor: ARAnchor(transform: anchor.transform))
+                    self.sceneView.session.add(anchor: planeAnchor)
+                    self.addMap(planeAnchor)
+                } catch {
+                    debugPrint(error)
+                }
+            }
+        })
     }
 }
 

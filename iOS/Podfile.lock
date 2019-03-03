@@ -4,20 +4,14 @@ PODS:
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - GTMSessionFetcher/Core (~> 1.2)
     - Protobuf (~> 3.5)
-  - BoringSSL-GRPC (0.0.2):
-    - BoringSSL-GRPC/Implementation (= 0.0.2)
-    - BoringSSL-GRPC/Interface (= 0.0.2)
-  - BoringSSL-GRPC/Implementation (0.0.2):
-    - BoringSSL-GRPC/Interface (= 0.0.2)
-  - BoringSSL-GRPC/Interface (0.0.2)
   - Firebase/Core (5.17.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.6.0)
   - Firebase/CoreOnly (5.17.0):
     - FirebaseCore (= 5.3.0)
-  - Firebase/Firestore (5.17.0):
+  - Firebase/Database (5.17.0):
     - Firebase/CoreOnly
-    - FirebaseFirestore (= 1.0.1)
+    - FirebaseDatabase (= 5.1.0)
   - FirebaseAnalytics (5.6.0):
     - FirebaseCore (~> 5.3)
     - FirebaseInstanceID (~> 3.5)
@@ -30,21 +24,10 @@ PODS:
   - FirebaseAuthInterop (1.0.0)
   - FirebaseCore (5.3.0):
     - GoogleUtilities/Logger (~> 5.2)
-  - FirebaseFirestore (1.0.1):
+  - FirebaseDatabase (5.1.0):
     - FirebaseAuthInterop (~> 1.0)
     - FirebaseCore (~> 5.2)
-    - FirebaseFirestore/abseil-cpp (= 1.0.1)
-    - "gRPC-C++ (= 0.0.6)"
-    - leveldb-library (~> 1.20)
-    - nanopb (~> 0.3.901)
-    - Protobuf (~> 3.1)
-  - FirebaseFirestore/abseil-cpp (1.0.1):
-    - FirebaseAuthInterop (~> 1.0)
-    - FirebaseCore (~> 5.2)
-    - "gRPC-C++ (= 0.0.6)"
-    - leveldb-library (~> 1.20)
-    - nanopb (~> 0.3.901)
-    - Protobuf (~> 3.1)
+    - leveldb-library (~> 1.18)
   - FirebaseInstanceID (3.5.0):
     - FirebaseCore (~> 5.3)
     - GoogleUtilities/Environment (~> 5.3)
@@ -79,22 +62,6 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (5.3.7):
     - GoogleUtilities/Logger
-  - "gRPC-C++ (0.0.6)":
-    - "gRPC-C++/Implementation (= 0.0.6)"
-    - "gRPC-C++/Interface (= 0.0.6)"
-  - "gRPC-C++/Implementation (0.0.6)":
-    - "gRPC-C++/Interface (= 0.0.6)"
-    - gRPC-Core (= 1.17.0)
-    - nanopb (~> 0.3)
-  - "gRPC-C++/Interface (0.0.6)"
-  - gRPC-Core (1.17.0):
-    - gRPC-Core/Implementation (= 1.17.0)
-    - gRPC-Core/Interface (= 1.17.0)
-  - gRPC-Core/Implementation (1.17.0):
-    - BoringSSL-GRPC (= 0.0.2)
-    - gRPC-Core/Interface (= 1.17.0)
-    - nanopb (~> 0.3)
-  - gRPC-Core/Interface (1.17.0)
   - GTMSessionFetcher/Core (1.2.1)
   - leveldb-library (1.20)
   - nanopb (0.3.901):
@@ -108,26 +75,23 @@ PODS:
 DEPENDENCIES:
   - ARCore
   - Firebase/Core
-  - Firebase/Firestore
+  - Firebase/Database
   - FloatingPanel
   - SWXMLHash
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - ARCore
-    - BoringSSL-GRPC
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuthInterop
     - FirebaseCore
-    - FirebaseFirestore
+    - FirebaseDatabase
     - FirebaseInstanceID
     - FloatingPanel
     - GoogleAppMeasurement
     - GoogleToolboxForMac
     - GoogleUtilities
-    - "gRPC-C++"
-    - gRPC-Core
     - GTMSessionFetcher
     - leveldb-library
     - nanopb
@@ -136,25 +100,22 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ARCore: 9ebef8add012e1e168324f8e1863c0b90f1dd67d
-  BoringSSL-GRPC: 2a230d9cd93e7ce39916044f645cebb31f37dde6
   Firebase: 59d557e064217fab6a03ff00baa73c06e73832e6
   FirebaseAnalytics: 75e4bbc6417d190cc98ec1f17c41a4fad4c2c976
   FirebaseAuthInterop: 0ffa57668be100582bb7643d4fcb7615496c41fc
   FirebaseCore: c0c4befb82374d6aef64d800e569f47625352edc
-  FirebaseFirestore: e95af4fe30552092d6e72a8f97ea475d93891b75
+  FirebaseDatabase: 23acb0c53cd4d4070a427b60100b2e4aaa97c45d
   FirebaseInstanceID: 4522aad88f69297622062c0e9ffccdee3dd9b151
   FloatingPanel: 1449e7c4b9994e394f2de685b2ad6dd93da06333
   GoogleAppMeasurement: 008e04ecd8efedd97a693aea8634aefe220bd26e
   GoogleToolboxForMac: ff31605b7d66400dcec09bed5861689aebadda4d
   GoogleUtilities: 111a012f4c3a29c9e7c954c082fafd6ee3c999c0
-  "gRPC-C++": e76441995900ac90e9bd98644ab4733f12521edf
-  gRPC-Core: 4028031ed2c5267cca0d846c876d8046b1ecb9b6
   GTMSessionFetcher: 32aeca0aa144acea523e1c8e053089dec2cb98ca
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
   SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
 
-PODFILE CHECKSUM: c253c1040200c4035b072da0f5611ef9642736d8
+PODFILE CHECKSUM: cf99935596910a875f7e621375124284cfc9f7ef
 
 COCOAPODS: 1.6.1

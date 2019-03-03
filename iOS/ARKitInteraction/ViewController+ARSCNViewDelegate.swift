@@ -49,20 +49,49 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     
     // HOOHACKS
     func addMap(_ result: ARHitTestResult) {
-        lock.lock()
-        defer { lock.unlock() }
         guard noMap else { return }
         let planeAnchor = result.anchor as! ARPlaneAnchor
+        let pos = result.worldTransform.columns.3
+        addMap(planeAnchor, at: SCNVector3(pos.x, pos.y + 0.02, pos.z))
+    }
+    func addMap(_ planeAnchor: ARPlaneAnchor, at pos: SCNVector3? = nil) {
         let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
         let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
                          chamferRadius: 0.01)
         geo.firstMaterial?.diffuse.contents = controller.view
         let node = SCNNode(geometry: geo)
-        let pos = result.worldTransform.columns.3
-        node.position = SCNVector3(pos.x, pos.y + 0.02, pos.z)
+        if let pos = pos { node.position = pos }
         mapNode = node
         sceneView.scene.rootNode.addChildNode(node)
-        host(planeAnchor)
+        let alert = UIAlertController(title: "Enable Cloud Share?",
+                                      message: "This will allow others to see the same map as you do.",
+                                      preferredStyle: .alert)
+        alert.addTextField { tf in
+            tf.placeholder = "Room ID"
+        }
+        alert.addAction(UIAlertAction(title: "No Thanks", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            let gID = alert.textFields?.first?.text ?? UUID().uuidString
+            self.startGroup(withID: gID, using: planeAnchor)
+        })
+        present(alert, animated: true)
+    }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        guard UIEventSubtype.motionShake == motion, noMap else { return }
+        let alert = UIAlertController.init(title: "Join A Group?",
+                                           message: "This will allow you to join another person's map",
+                                           preferredStyle: .alert)
+        alert.addTextField { tf in
+            tf.placeholder = "Room ID"
+        }
+        alert.addAction(UIAlertAction(title: "No Thanks", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Join", style: .default) { [weak self] _ in
+            guard let self = self, let gID = alert.textFields?.first?.text, !gID.isEmpty else { return }
+            self.joinGroup(withID: gID)
+        })
+        present(alert, animated: true)
     }
     // HOOHACKS
     

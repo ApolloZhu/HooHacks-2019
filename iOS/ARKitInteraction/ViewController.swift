@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     var centerCoord: CLLocation?
     var noMap: Bool { return mapNode == nil }
     var mapNode: SCNNode?
-    let lock = NSLock()
     lazy var mapView: MKMapView = {
         return controller.view.subviews.first { $0 is MKMapView } as! MKMapView
     }()
