@@ -75,19 +75,7 @@ class ViewController: UIViewController {
             guard let self = self else { return }
             defer { self.fpc.move(to: .tip, animated: true) }
             let infoVC = self.fpc.contentViewController as! HouseInfoViewController
-            infoVC.streetNameLabel.text = street
-            if let house = house {
-                infoVC.priceLabel.text = "$ \(house.zestimate.amount)"
-                infoVC.areaLabel.text = "\(house.propertySize) ft²"
-                infoVC.bathroomCountLabel.text = "\(house.bathroomsCount)"
-                infoVC.bedroomCountLabel.text = "\(house.bedroomsCount)"
-            } else {
-                infoVC.priceLabel.text = "No Information Available"
-                infoVC.areaLabel.text = ""
-                infoVC.bathroomCountLabel.text = ""
-                infoVC.bedroomCountLabel.text = ""
-            }
-            print(house)
+            infoVC.setHouse(house, at: street)
         }
     }
     
