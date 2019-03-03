@@ -30,18 +30,29 @@ func safely<T>(execute function: () throws -> T) -> T? {
     }
 }
 
-extension ViewController {
+extension ViewController: GARSessionDelegate {
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
         safely { try CloudAnchorManager.default.session.update(frame) }
     }
     
     func startGroup(withID gID: String, using anchor: ARPlaneAnchor) {
         do {
-            let hosted = try CloudAnchorManager.default.session.hostCloudAnchor(anchor)
-            db.child("hotspot_list").child(gID).child("hosted_anchor_id").setValue(hosted.cloudIdentifier)
+            self.gID = gID
+             CloudAnchorManager.default.session.delegate = self
+            _ = try CloudAnchorManager.default.session.hostCloudAnchor(anchor)
         } catch {
             debugPrint(error)
         }
+    }
+    
+    func session(_ session: GARSession, didHostAnchor anchor: GARAnchor) {
+        db.child("hotspot_list").child(gID).child("hosted_anchor_id").setValue(anchor.cloudIdentifier!)
+        CloudAnchorManager.default.session.delegate = nil
+    }
+    
+    func session(_ session: GARSession, didFailToHostAnchor anchor: GARAnchor) {
+        debugPrint("Host \(anchor) Failed")
+        CloudAnchorManager.default.session.delegate = nil
     }
     
     func joinGroup(withID gID: String) {
@@ -52,17 +63,27 @@ extension ViewController {
                     let id = dict["hosted_anchor_id"]
                     else { return debugPrint("No anchor id") }
                 do {
-                    let anchor = try CloudAnchorManager.default.session
+                    CloudAnchorManager.default.session.delegate = self
+                    _ = try CloudAnchorManager.default.session
                         .resolveCloudAnchor(withIdentifier: id)
-                    db.child("hotspot_list").child(gID).removeAllObservers()
-                    let planeAnchor = ARPlaneAnchor(anchor: ARAnchor(transform: anchor.transform))
-                    self.sceneView.session.add(anchor: planeAnchor)
-                    self.addMap(planeAnchor)
                 } catch {
                     debugPrint(error)
                 }
             }
         })
+    }
+    
+    func session(_ session: GARSession, didResolve anchor: GARAnchor) {
+        db.child("hotspot_list").child(gID).removeAllObservers()
+        let planeAnchor = ARAnchor(transform: anchor.transform)
+        sceneView.session.add(anchor: planeAnchor)
+        #warning("addMap(planeAnchor)")
+        CloudAnchorManager.default.session.delegate = nil
+    }
+    
+    func session(_ session: GARSession, didFailToResolve anchor: GARAnchor) {
+        debugPrint("Resolve \(anchor) Failed")
+        CloudAnchorManager.default.session.delegate = nil
     }
 }
 
@@ -74,27 +95,4 @@ public class CloudAnchorManager: NSObject {
         self.session = session
         super.init()
     }
-}
-
-extension CloudAnchorManager: GARSessionDelegate {
-    /*
-    -(void)session:(ARSession *)arSession didUpdateFrame:(ARFrame *)arFrame {
-    [...]
-    
-    -(void)session:(GARSession *)garSession didHostAnchor:(GARAnchor *)garAnchor {
-    // successful host
-    }
-    
-    -(void)session:(GARSession *)garSession didFailToHostAnchor:(GARAnchor *)garAnchor {
-    // failed host
-    }
-    
-    -(void)session:(GARSession *)garSession didResolveAnchor:(GARAnchor *)garAnchor {
-    // successful resolve
-    }
-    
-    -(void)session:(GARSession *)garSession didFailToResolveAnchor:(GARAnchor *)garAnchor {
-    // failed resolve
-    }
-    */
 }

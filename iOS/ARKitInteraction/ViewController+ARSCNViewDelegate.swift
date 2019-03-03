@@ -51,16 +51,13 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     func addMap(_ result: ARHitTestResult) {
         guard noMap else { return }
         let planeAnchor = result.anchor as! ARPlaneAnchor
-        let pos = result.worldTransform.columns.3
-        addMap(planeAnchor, at: SCNVector3(pos.x, pos.y + 0.02, pos.z))
-    }
-    func addMap(_ planeAnchor: ARPlaneAnchor, at pos: SCNVector3? = nil) {
         let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
         let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
                          chamferRadius: 0.01)
         geo.firstMaterial?.diffuse.contents = controller.view
         let node = SCNNode(geometry: geo)
-        if let pos = pos { node.position = pos }
+        let pos = result.worldTransform.columns.3
+        node.position = SCNVector3(pos.x, pos.y + 0.02, pos.z)
         mapNode = node
         sceneView.scene.rootNode.addChildNode(node)
         let alert = UIAlertController(title: "Enable Cloud Share?",

@@ -17,6 +17,7 @@ import FloatingPanel
 class ViewController: UIViewController {
     
     static var current: ViewController!
+    var gID = ""
     let manager = CLLocationManager()
     var centerCoord: CLLocation?
     var noMap: Bool { return mapNode == nil }
