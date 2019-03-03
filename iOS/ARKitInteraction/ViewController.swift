@@ -11,7 +11,6 @@ import UIKit
 // HOOHACKS
 import MapKit
 import CoreLocation
-import SWXMLHash
 import FloatingPanel
 // HOOHACKS
 
@@ -67,34 +66,7 @@ class ViewController: UIViewController {
         }
     }
     
-    private func fetchInformationOfHouse(at street: String, in cityState: String) {
-        var urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address=\(street)&citystatezip=\(cityState)"
-        urlString = urlString.replacingOccurrences(of: " ", with: "+")
-        guard let url = URL(string: urlString) else { return debugPrint("Not valid url") }
-        URLSession.shared.dataTask(with: url) { data,_,err in
-            guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
-            let xml = SWXMLHash.parse(data)
-            let result = xml["SearchResults:searchresults"]["response"]["results"]["result"]
-            do {
-                self.processHouse(House(
-                    price: try result["zestimate"]["amount"].value(),
-                    numOfBedroom: try result["bedrooms"].value(),
-                    numOfBathroom: try result["bathrooms"].value(),
-                    sqft: try result["finishedSqFt"].value()
-                ), at: street)
-            } catch {
-                self.processHouse(nil, at: street)
-                debugPrint(error)
-            }
-        }.resume()
-    }
     
-    struct House {
-        let price: Int
-        let numOfBedroom: Int
-        let numOfBathroom: Double
-        let sqft: Int
-    }
     
     private func processHouse(_ house: House?, at street: String) {
         DispatchQueue.main.async { [weak self] in
