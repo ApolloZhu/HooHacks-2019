@@ -10,20 +10,27 @@ import SceneKit
 import UIKit
 // HOOHACKS
 import MapKit
+import CoreLocation
 // HOOHACKS
 
 class ViewController: UIViewController {
     
     // HOOHACKS
+    let manager = CLLocationManager()
+    var centerCoord: CLLocation?
     var noMap: Bool { return mapNode == nil }
     var mapNode: SCNNode?
     let lock = NSLock()
     lazy var mapView: MKMapView = {
         return controller.view.subviews.first { $0 is MKMapView } as! MKMapView
     }()
-    let controller: UIViewController = {
+    private(set) lazy var controller: UIViewController = {
         let controller = UIViewController()
         let mapView = MKMapView()
+        mapView.mapType = .satelliteFlyover
+        let center = self.centerCoord?.coordinate ??
+            CLLocationCoordinate2D(latitude: 38.0315612, longitude: -78.5148471)
+        mapView.region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         controller.view.addSubview(mapView)
         mapView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -81,6 +88,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // HOOHACKS
+        manager.delegate = self
+        manager.startUpdatingLocation()
+        // HOOHACKS
         
         sceneView.delegate = self
         sceneView.session.delegate = self
@@ -199,3 +211,11 @@ class ViewController: UIViewController {
     }
 
 }
+
+// HOOHACKS
+extension ViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        self.centerCoord = locations.last
+    }
+}
+// HOOHACKS
