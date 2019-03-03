@@ -51,7 +51,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     func addMap(_ result: ARHitTestResult) {
         guard noMap else { return }
         let planeAnchor = result.anchor as! ARPlaneAnchor
-        let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
+        sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
         let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
                          chamferRadius: 0.01)
         geo.firstMaterial?.diffuse.contents = controller.view
@@ -73,6 +73,18 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             self.startGroup(withID: gID, using: planeAnchor)
         })
         present(alert, animated: true)
+    }
+    
+    func addMap(ofLength length: CGFloat, at anchor: ARAnchor) {
+        guard noMap else { return }
+        sideLength = length
+        let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
+                         chamferRadius: 0.01)
+        geo.firstMaterial?.diffuse.contents = controller.view
+        let node = SCNNode(geometry: geo)
+        node.transform = SCNMatrix4(anchor.transform)
+        mapNode = node
+        sceneView.scene.rootNode.addChildNode(node)
     }
     
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {

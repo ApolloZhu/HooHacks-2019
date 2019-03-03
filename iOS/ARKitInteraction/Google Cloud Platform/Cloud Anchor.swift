@@ -46,7 +46,8 @@ extension ViewController: GARSessionDelegate {
     }
     
     func session(_ session: GARSession, didHostAnchor anchor: GARAnchor) {
-        db.child("hotspot_list").child(gID).child("hosted_anchor_id").setValue(anchor.cloudIdentifier!)
+        db.child("hotspot_list").child(gID).setValue(["hosted_anchor_id": anchor.cloudIdentifier!,
+                                                      "anchor_side_length": sideLength])
         CloudAnchorManager.default.session.delegate = nil
     }
     
@@ -56,13 +57,16 @@ extension ViewController: GARSessionDelegate {
     }
     
     func joinGroup(withID gID: String) {
+        self.gID = gID
         db.child("hotspot_list").child(gID).observe(DataEventType.value, with: { [weak self] snapshot in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self,
-                    let dict = snapshot.value as? [String: String],
-                    let id = dict["hosted_anchor_id"]
+                    let dict = snapshot.value as? [String: Any],
+                    let id = dict["hosted_anchor_id"] as? String,
+                    let sideLength = dict["anchor_side_length"] as? CGFloat
                     else { return debugPrint("No anchor id") }
                 do {
+                    self.sideLength = sideLength
                     CloudAnchorManager.default.session.delegate = self
                     _ = try CloudAnchorManager.default.session
                         .resolveCloudAnchor(withIdentifier: id)
@@ -77,7 +81,7 @@ extension ViewController: GARSessionDelegate {
         db.child("hotspot_list").child(gID).removeAllObservers()
         let planeAnchor = ARAnchor(transform: anchor.transform)
         sceneView.session.add(anchor: planeAnchor)
-        #warning("addMap(planeAnchor)")
+        addMap(ofLength: sideLength, at: planeAnchor)
         CloudAnchorManager.default.session.delegate = nil
     }
     

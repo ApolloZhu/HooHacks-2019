@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
     static var current: ViewController!
     var gID = ""
+    var sideLength = 1 as CGFloat
     let manager = CLLocationManager()
     var centerCoord: CLLocation?
     var noMap: Bool { return mapNode == nil }
