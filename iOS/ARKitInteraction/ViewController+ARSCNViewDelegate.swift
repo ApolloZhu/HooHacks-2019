@@ -62,6 +62,7 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
         node.position = SCNVector3(pos.x, pos.y + 0.02, pos.z)
         mapNode = node
         sceneView.scene.rootNode.addChildNode(node)
+        host(planeAnchor)
     }
     // HOOHACKS
     

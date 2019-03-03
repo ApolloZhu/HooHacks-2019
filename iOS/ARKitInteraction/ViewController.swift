@@ -15,6 +15,7 @@ import FloatingPanel
 // HOOHACKS
 
 class ViewController: UIViewController {
+    
     static var current: ViewController!
     let manager = CLLocationManager()
     var centerCoord: CLLocation?
