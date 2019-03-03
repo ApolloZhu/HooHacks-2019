@@ -11,4 +11,5 @@ target 'ARKitInteraction' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'ARCore'
+  pod 'SwiftChart'
 end

@@ -369,6 +369,22 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zF7-pf-oij" id="gDg-yc-ld1">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V4s-e7-9sM" customClass="Chart" customModule="SwiftChart">
+                                                    <rect key="frame" x="16" y="11" width="343" height="218"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="218" id="5es-1a-7AQ"/>
+                                                        <constraint firstAttribute="width" constant="343" id="AK5-eh-lsY"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="V4s-e7-9sM" secondAttribute="bottom" id="6Hh-AL-W8t"/>
+                                                <constraint firstItem="V4s-e7-9sM" firstAttribute="leading" secondItem="gDg-yc-ld1" secondAttribute="leading" id="iTV-gr-qYa"/>
+                                                <constraint firstAttribute="trailing" secondItem="V4s-e7-9sM" secondAttribute="trailing" id="roJ-vW-DmT"/>
+                                                <constraint firstItem="V4s-e7-9sM" firstAttribute="top" secondItem="gDg-yc-ld1" secondAttribute="top" id="t2L-Yj-z4R"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -383,6 +399,7 @@
                         <outlet property="areaLabel" destination="EtI-Qj-7Se" id="e2o-wS-lxd"/>
                         <outlet property="bathroomCountLabel" destination="4rK-pq-FG3" id="4dx-4i-Kc8"/>
                         <outlet property="bedroomCountLabel" destination="OsR-75-mY8" id="ENV-Eu-rAA"/>
+                        <outlet property="chart" destination="gDg-yc-ld1" id="IOH-Ue-wIG"/>
                         <outlet property="priceLabel" destination="CVy-Mq-ath" id="yns-Ig-PXr"/>
                         <outlet property="streetNameLabel" destination="4Ef-R3-53K" id="hB5-1C-MpS"/>
                         <outlet property="typeLabel" destination="cUX-ow-Vzj" id="Cnv-4y-7jl"/>

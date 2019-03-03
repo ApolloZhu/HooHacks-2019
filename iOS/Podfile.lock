@@ -70,6 +70,7 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.6.1)
+  - SwiftChart (1.0.1)
   - SWXMLHash (4.7.6)
 
 DEPENDENCIES:
@@ -77,6 +78,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - FloatingPanel
+  - SwiftChart
   - SWXMLHash
 
 SPEC REPOS:
@@ -96,6 +98,7 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
+    - SwiftChart
     - SWXMLHash
 
 SPEC CHECKSUMS:
@@ -114,8 +117,9 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  SwiftChart: ba767a678d568a5ee22d419e146a0582865e1aff
   SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
 
-PODFILE CHECKSUM: cf99935596910a875f7e621375124284cfc9f7ef
+PODFILE CHECKSUM: c4d54a1f9af434fda04ce82b6cda0341c41ca715
 
 COCOAPODS: 1.6.1

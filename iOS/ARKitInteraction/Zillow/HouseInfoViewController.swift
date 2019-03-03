@@ -8,6 +8,15 @@
 
 import UIKit
 import FloatingPanel
+import SwiftChart
+
+extension DateFormatter {
+    static let zillow: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "MM/dd/yyyy"
+        return f
+    }()
+}
 
 class HouseInfoViewController: UITableViewController {
     @IBOutlet private weak var streetNameLabel: UILabel!
@@ -18,6 +27,7 @@ class HouseInfoViewController: UITableViewController {
     @IBOutlet private weak var typeLabel: UILabel!
     @IBOutlet private weak var yearBuiltLabel: UILabel!
     @IBOutlet private weak var zIndexLabel: UILabel!
+    @IBOutlet weak var chart: Chart!
     
     @IBOutlet var toHide: [UIView]!
     
@@ -36,6 +46,16 @@ class HouseInfoViewController: UITableViewController {
         typeLabel.text = house.use.rawValue
         yearBuiltLabel.text = "\(house.yearBuilt)"
         zIndexLabel.text = house.zillowHomeValueIndex
+        
+        let lastEst = DateFormatter.zillow.date(from: house.zestimate.lastUpdated)!
+        let past30 = Calendar.current.date(byAdding: .day, value: -30, to: lastEst)!
+        let lastSold = DateFormatter.zillow.date(from: house.lastSoldDate)!
+        let data: [(date: Date, price: Int)] = [
+            (lastEst, house.zestimate.amount),
+            (past30, house.zestimate.amount + house.zestimate.amountChangeInPast30Days),
+            (lastSold, house.lastSoldPrice)
+        ].sorted { $0.date < $1.date }
+        print(data)
     }
 }
 
