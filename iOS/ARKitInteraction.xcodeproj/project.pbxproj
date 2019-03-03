@@ -17,6 +17,7 @@
 		3929C49F1E89EE4400E00B60 /* Models.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 3929C49E1E89EE4400E00B60 /* Models.scnassets */; };
 		39C0B95A1E9C6B1F003FCA0C /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C0B9581E9C6B1F003FCA0C /* Utilities.swift */; };
 		39D8DC1B1E8ADAE600386B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D8DC1A1E8ADAE600386B05 /* LaunchScreen.storyboard */; };
+		42D239A49F83B0CB5080E205 /* Pods_ARKitInteraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EED4A3D75C562618F3D7B17E /* Pods_ARKitInteraction.framework */; };
 		52BEF011222B422E003A7C15 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52BEF010222B422E003A7C15 /* MapKit.framework */; };
 		C41366B91EB80DD400EC054A /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41366B81EB80DD400EC054A /* StatusViewController.swift */; };
 		C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A71BC1E9C0AF200944367 /* FocusSquare.swift */; };
@@ -49,8 +50,11 @@
 		C8C12A701F29277B00B011FE /* ViewController+ARSCNViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+ARSCNViewDelegate.swift"; sourceTree = "<group>"; };
 		C8C2AC511F3A545C00E86BA3 /* VirtualObjectInteraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectInteraction.swift; sourceTree = "<group>"; };
 		C8D719FF1F3B7D3D0086AD64 /* VirtualObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObject.swift; sourceTree = "<group>"; };
+		DAF210760EAF590D3A414D15 /* Pods-ARKitInteraction.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARKitInteraction.debug.xcconfig"; path = "Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction.debug.xcconfig"; sourceTree = "<group>"; };
 		DFC6BD30DFC63E9000000001 /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		DFCC6E40DFCC6AD000000001 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		EED4A3D75C562618F3D7B17E /* Pods_ARKitInteraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ARKitInteraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F718F417C8B37D345DF75A18 /* Pods-ARKitInteraction.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARKitInteraction.release.xcconfig"; path = "Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				52BEF011222B422E003A7C15 /* MapKit.framework in Frameworks */,
+				42D239A49F83B0CB5080E205 /* Pods_ARKitInteraction.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +116,7 @@
 				DFC6DDA0DFC6723000000001 /* Configuration */,
 				DFCC6A90DFCC685000000001 /* LICENSE */,
 				52BEF00F222B422E003A7C15 /* Frameworks */,
+				AC33DCB88A0366DC0F8BC351 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -145,8 +151,19 @@
 			isa = PBXGroup;
 			children = (
 				52BEF010222B422E003A7C15 /* MapKit.framework */,
+				EED4A3D75C562618F3D7B17E /* Pods_ARKitInteraction.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AC33DCB88A0366DC0F8BC351 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DAF210760EAF590D3A414D15 /* Pods-ARKitInteraction.debug.xcconfig */,
+				F718F417C8B37D345DF75A18 /* Pods-ARKitInteraction.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		C40DF57B1EC2330700D9D59E /* Virtual Objects */ = {
@@ -181,9 +198,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3929C49A1E89EC2C00E00B60 /* Build configuration list for PBXNativeTarget "ARKitInteraction" */;
 			buildPhases = (
+				80F5E0D0B475F17FFA51EC5D /* [CP] Check Pods Manifest.lock */,
 				3929C4841E89EC2C00E00B60 /* Sources */,
 				3929C4851E89EC2C00E00B60 /* Frameworks */,
 				3929C4861E89EC2C00E00B60 /* Resources */,
+				643C0E63209F395D06AE38F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -248,6 +267,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		643C0E63209F395D06AE38F6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/SWXMLHash/SWXMLHash.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SWXMLHash.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80F5E0D0B475F17FFA51EC5D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ARKitInteraction-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3929C4841E89EC2C00E00B60 /* Sources */ = {

@@ -6,5 +6,5 @@ target 'ARKitInteraction' do
   use_frameworks!
 
   # Pods for ARKitInteraction
-
+  pod 'SWXMLHash', '~> 4.7.0'
 end
