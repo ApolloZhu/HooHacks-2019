@@ -62,17 +62,24 @@ class ViewController: UIViewController {
                 isValid($0.locality) &&
                 isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
-            self.displayInformationForHouse(at: "\(placemark.subThoroughfare!) \(placemark.thoroughfare!)",
+            let streetName = "\(placemark.subThoroughfare!) \(placemark.thoroughfare!)"
+            self.displayInformationForHouse(at: streetName,
                                             in: placemark.locality!,
                                             placemark.administrativeArea!)
         }
     }
     
     private func displayInformationForHouse(at street: String, in city: String, _ state: String) {
-        #warning("Sirena, your API call goes here")
-        // Equivalent of
-        // street + ", " + city + ", " + state
-        print("\(street), \(city), \(state)")
+        #warning("Sirena, construct request URL in the following line. Don't worry about %2C or +")
+        var urlString = street + "," + city + "," + state
+        urlString = urlString
+            .replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
+            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! // Change , to %2C
+        guard let url = URL(string: "") else { return debugPrint("Not valid url") }
+        URLSession.shared.dataTask(with: url) { data,_,err in
+            guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
+            #warning("Sirena, process XML data here")
+        }.resume()
     }
     // HOOHACKS
     
