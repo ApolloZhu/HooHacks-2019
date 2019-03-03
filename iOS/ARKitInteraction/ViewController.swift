@@ -8,8 +8,33 @@ Main view controller for the AR experience.
 import ARKit
 import SceneKit
 import UIKit
+// HOOHACKS
+import MapKit
+// HOOHACKS
 
 class ViewController: UIViewController {
+    
+    // HOOHACKS
+    var noMap: Bool { return mapNode == nil }
+    var mapNode: SCNNode?
+    let lock = NSLock()
+    lazy var mapView: MKMapView = {
+        return controller.view.subviews.first { $0 is MKMapView } as! MKMapView
+    }()
+    let controller: UIViewController = {
+        let controller = UIViewController()
+        let mapView = MKMapView()
+        controller.view.addSubview(mapView)
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            mapView.leadingAnchor.constraint(equalTo: controller.view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: controller.view.trailingAnchor),
+            mapView.topAnchor.constraint(equalTo: controller.view.topAnchor),
+            mapView.bottomAnchor.constraint(equalTo: controller.view.bottomAnchor)
+        ])
+        return controller
+    }()
+    // HOOHACKS
     
     // MARK: IBOutlets
     
@@ -114,6 +139,10 @@ class ViewController: UIViewController {
     
     /// Creates a new AR configuration to run on the `session`.
     func resetTracking() {
+        // HOOHACKS
+        mapNode?.removeFromParentNode()
+        mapNode = nil
+        // HOOHACKS
         virtualObjectInteraction.selectedObject = nil
         
         let configuration = ARWorldTrackingConfiguration()
@@ -129,7 +158,7 @@ class ViewController: UIViewController {
     // MARK: - Focus Square
 
     func updateFocusSquare(isObjectVisible: Bool) {
-        if isObjectVisible {
+        if !noMap {
             focusSquare.hide()
         } else {
             focusSquare.unhide()

@@ -6,6 +6,9 @@ ARSCNViewDelegate interactions for `ViewController`.
 */
 
 import ARKit
+// HOOHACKS
+import MapKit
+// HOOHACKS
 
 extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     
@@ -32,12 +35,26 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            debugPrint("ADD", planeAnchor)
             self.statusViewController.cancelScheduledMessage(for: .planeEstimation)
             self.statusViewController.showMessage("SURFACE DETECTED")
-            if self.virtualObjectLoader.loadedObjects.isEmpty {
-                self.statusViewController.scheduleMessage("TAP + TO PLACE AN OBJECT", inSeconds: 7.5, messageType: .contentPlacement)
-            }
+            // HOOHACKS
+            self.lock.lock()
+            defer { self.lock.unlock() }
+            guard self.noMap else { return }
+            let scale = UIScreen.main.scale
+            let width = CGFloat(planeAnchor.extent.x) * scale
+            let height = CGFloat(planeAnchor.extent.z) * scale
+            let view = self.controller.view
+            let geo = SCNBox(width: width, height: 0.02, length: height, chamferRadius: 0.01)
+            geo.firstMaterial?.diffuse.contents = view
+            let node = SCNNode(geometry: geo)
+            node.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
+            self.mapNode = node
+            self.sceneView.scene.rootNode.addChildNode(node)
+            // HOOHACKS
         }
         updateQueue.async {
             for object in self.virtualObjectLoader.loadedObjects {
