@@ -68,23 +68,24 @@ class ViewController: UIViewController {
         }
     }
     
-    private func processHouse(_ house: HouseInfo.Highlight?, at street: String) {
+    private func processHouse(_ house: HouseInfo?, at street: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             defer { self.fpc.move(to: .tip, animated: true) }
             let infoVC = self.fpc.contentViewController as! HouseInfoViewController
             infoVC.streetNameLabel.text = street
             if let house = house {
-                infoVC.priceLabel.text = "$ \(house.price)"
-                infoVC.areaLabel.text = "\(house.sqft) ft²"
-                infoVC.bathroomCountLabel.text = "\(house.numOfBathroom)"
-                infoVC.bedroomCountLabel.text = "\(house.numOfBedroom)"
+                infoVC.priceLabel.text = "$ \(house.zestimate.amount)"
+                infoVC.areaLabel.text = "\(house.propertySize) ft²"
+                infoVC.bathroomCountLabel.text = "\(house.bathroomsCount)"
+                infoVC.bedroomCountLabel.text = "\(house.bedroomsCount)"
             } else {
                 infoVC.priceLabel.text = "No Information Available"
                 infoVC.areaLabel.text = ""
                 infoVC.bathroomCountLabel.text = ""
                 infoVC.bedroomCountLabel.text = ""
             }
+            print(house)
         }
     }
     
