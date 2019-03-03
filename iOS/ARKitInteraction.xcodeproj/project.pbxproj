@@ -112,7 +112,6 @@
 				11063F3B1EBE651B0033EE6D /* README.md */,
 				3929C48A1E89EC2C00E00B60 /* ARKitInteraction */,
 				3929C4891E89EC2C00E00B60 /* Products */,
-				DFC6DDA0DFC6723000000001 /* Configuration */,
 				DFCC6A90DFCC685000000001 /* LICENSE */,
 				52BEF00F222B422E003A7C15 /* Frameworks */,
 				AC33DCB88A0366DC0F8BC351 /* Pods */,
@@ -171,13 +170,6 @@
 				C46356651EF9CB1A0080C8D9 /* VirtualObjectLoader.swift */,
 			);
 			path = "Virtual Objects";
-			sourceTree = "<group>";
-		};
-		DFC6DDA0DFC6723000000001 /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Configuration;
 			sourceTree = "<group>";
 		};
 		DFCC6A90DFCC685000000001 /* LICENSE */ = {
