@@ -7,9 +7,16 @@
 //
 
 import UIKit
+import FloatingPanel
 
 class HouseInfoViewController: UITableViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+    @IBOutlet weak var streetNameLabel: UILabel!
+    @IBOutlet weak var priceLabel: UILabel!
+    @IBOutlet weak var areaLabel: UILabel!
+    @IBOutlet weak var bedroomCountLabel: UILabel!
+    @IBOutlet weak var bathroomCountLabel: UILabel!
+}
+
+extension ViewController: FloatingPanelControllerDelegate {
+    
 }

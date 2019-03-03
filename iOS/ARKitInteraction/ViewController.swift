@@ -12,6 +12,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import SWXMLHash
+import FloatingPanel
 // HOOHACKS
 
 class ViewController: UIViewController {
@@ -76,29 +77,46 @@ class ViewController: UIViewController {
             let result = xml["SearchResults:searchresults"]["response"]["results"]["result"]
             do {
                 self.processHouse(House(
-                    street: street,
                     price: try result["zestimate"]["amount"].value(),
                     numOfBedroom: try result["bedrooms"].value(),
                     numOfBathroom: try result["bathrooms"].value(),
                     sqft: try result["finishedSqFt"].value()
-                ))
+                ), at: street)
             } catch {
+                self.processHouse(nil, at: street)
                 debugPrint(error)
             }
         }.resume()
     }
     
     struct House {
-        let street: String
         let price: Int
         let numOfBedroom: Int
         let numOfBathroom: Double
         let sqft: Int
     }
     
-    private func processHouse(_ house: House) {
-        print(house)
+    private func processHouse(_ house: House?, at street: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            defer { self.fpc.move(to: .tip, animated: true) }
+            let infoVC = self.fpc.contentViewController as! HouseInfoViewController
+            infoVC.streetNameLabel.text = street
+            if let house = house {
+                infoVC.priceLabel.text = "$ \(house.price)"
+                infoVC.areaLabel.text = "\(house.sqft) ft²"
+                infoVC.bathroomCountLabel.text = "\(house.numOfBathroom)"
+                infoVC.bedroomCountLabel.text = "\(house.numOfBedroom)"
+            } else {
+                infoVC.priceLabel.text = "No Information Available"
+                infoVC.areaLabel.text = ""
+                infoVC.bathroomCountLabel.text = ""
+                infoVC.bedroomCountLabel.text = ""
+            }
+        }
     }
+    
+    let fpc = FloatingPanelController()
     // HOOHACKS
     
     // MARK: IBOutlets
@@ -144,6 +162,10 @@ class ViewController: UIViewController {
     
     // MARK: - View Controller Life Cycle
     
+    deinit {
+        fpc.removePanelFromParent(animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -151,6 +173,16 @@ class ViewController: UIViewController {
         ViewController.current = self
         manager.delegate = self
         manager.startUpdatingLocation()
+        
+        fpc.delegate = self
+        let contentVC = UIStoryboard(name: "Main", bundle: nil)
+            .instantiateViewController(withIdentifier: "HouseInfoViewController")
+            as! HouseInfoViewController
+        fpc.set(contentViewController: contentVC)
+        fpc.track(scrollView: contentVC.tableView)
+        fpc.isRemovalInteractionEnabled = true
+        fpc.addPanel(toParent: self)
+        fpc.hide()
         // HOOHACKS
         
         sceneView.delegate = self

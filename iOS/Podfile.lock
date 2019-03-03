@@ -4,7 +4,7 @@ PODS:
 
 DEPENDENCIES:
   - FloatingPanel
-  - SWXMLHash (~> 4.7.0)
+  - SWXMLHash
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -15,6 +15,6 @@ SPEC CHECKSUMS:
   FloatingPanel: 1449e7c4b9994e394f2de685b2ad6dd93da06333
   SWXMLHash: f6e0933ce74f2626669dc544851bc9fc1941670d
 
-PODFILE CHECKSUM: 37701e3c0d579acf2b1fba841ea99bb5220214d8
+PODFILE CHECKSUM: 98c6fa44d84b4dd609a176d62b441f081fc12cda
 
 COCOAPODS: 1.6.1
