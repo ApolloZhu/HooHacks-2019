@@ -14,6 +14,7 @@ import CoreLocation
 // HOOHACKS
 
 class ViewController: UIViewController {
+    static var current: ViewController!
     
     // HOOHACKS
     let manager = CLLocationManager()
@@ -90,6 +91,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         // HOOHACKS
+        ViewController.current = self
         manager.delegate = self
         manager.startUpdatingLocation()
         // HOOHACKS

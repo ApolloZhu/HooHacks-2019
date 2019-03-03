@@ -37,21 +37,8 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            debugPrint("ADD", planeAnchor)
             self.statusViewController.cancelScheduledMessage(for: .planeEstimation)
-            self.statusViewController.showMessage("SURFACE DETECTED")
-            // HOOHACKS
-            self.lock.lock()
-            defer { self.lock.unlock() }
-            guard self.noMap else { return }
-            let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
-            let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
-                             chamferRadius: 0.01)
-            geo.firstMaterial?.diffuse.contents = self.controller.view
-            let node = SCNNode(geometry: geo)
-            self.mapNode = node
-            self.sceneView.scene.rootNode.addChildNode(node)
-            // HOOHACKS
+            self.statusViewController.showMessage("TAP SQUARE TO PLACE MAP")
         }
         updateQueue.async {
             for object in self.virtualObjectLoader.loadedObjects {
@@ -59,6 +46,24 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             }
         }
     }
+    
+    // HOOHACKS
+    func addMap(_ result: ARHitTestResult) {
+        lock.lock()
+        defer { lock.unlock() }
+        guard noMap else { return }
+        let planeAnchor = result.anchor as! ARPlaneAnchor
+        let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
+        let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
+                         chamferRadius: 0.01)
+        geo.firstMaterial?.diffuse.contents = controller.view
+        let node = SCNNode(geometry: geo)
+        let pos = result.worldTransform.columns.3
+        node.position = SCNVector3(pos.x, pos.y + 0.02, pos.z)
+        mapNode = node
+        sceneView.scene.rootNode.addChildNode(node)
+    }
+    // HOOHACKS
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         updateQueue.async {

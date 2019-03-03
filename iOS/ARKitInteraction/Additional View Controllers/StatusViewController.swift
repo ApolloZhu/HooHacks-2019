@@ -135,15 +135,15 @@ extension ARCamera.TrackingState {
     var presentationString: String {
         switch self {
         case .notAvailable:
-            return "NOT WORKING!?"
+            return "NOT WORKING?"
         case .normal:
-            return "Ready ^_^"
+            return "Scanning...."
         case .limited(.excessiveMotion):
             return "You are moving too fast!"
         case .limited(.insufficientFeatures):
             return "We can't find a surface?"
         case .limited(.initializing):
-            return "Initializing..."
+            return "Initializing"
         case .limited(.relocalizing):
             return "Recovering from interruption"
         }

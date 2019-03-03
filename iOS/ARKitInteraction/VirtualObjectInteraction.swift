@@ -38,22 +38,20 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
         self.sceneView = sceneView
         super.init()
         
-        let panGesture = ThresholdPanGesture(target: self, action: #selector(didPan(_:)))
-        panGesture.delegate = self
-        
         let rotationGesture = UIRotationGestureRecognizer(target: self, action: #selector(didRotate(_:)))
         rotationGesture.delegate = self
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap(_:)))
         
         // Add gestures to the `sceneView`.
-        sceneView.addGestureRecognizer(panGesture)
+        // sceneView.addGestureRecognizer(panGesture)
         sceneView.addGestureRecognizer(rotationGesture)
         sceneView.addGestureRecognizer(tapGesture)
     }
     
     // MARK: - Gesture Actions
     
+    /*
     @objc
     func didPan(_ gesture: ThresholdPanGesture) {
         switch gesture.state {
@@ -90,7 +88,8 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
             trackedObject = nil
         }
     }
-
+*/
+    
     /**
      If a drag gesture is in progress, update the tracked object's position by
      converting the 2D touch location on screen (`currentTrackingPosition`) to
@@ -125,6 +124,10 @@ class VirtualObjectInteraction: NSObject, UIGestureRecognizerDelegate {
     @objc
     func didTap(_ gesture: UITapGestureRecognizer) {
         let touchLocation = gesture.location(in: sceneView)
+        // HOOHACKS
+        let result = sceneView.hitTest(touchLocation, types: .existingPlaneUsingExtent)
+        result.first.map(ViewController.current.addMap)
+        // HOOHACKS
         
         if let tappedObject = sceneView.virtualObject(at: touchLocation) {
             // Select a new object.
