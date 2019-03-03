@@ -62,7 +62,7 @@ class ViewController: UIViewController {
                     && isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
             self.fetchInformationOfHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
-                                         in: placemark.locality! + "%2C " + placemark.administrativeArea!)
+                                         in: placemark.locality! + ", " + placemark.administrativeArea!)
         }
     }
     
@@ -76,6 +76,7 @@ class ViewController: UIViewController {
             let result = xml["SearchResults:searchresults"]["response"]["results"]["result"]
             do {
                 self.processHouse(House(
+                    street: street,
                     price: try result["zestimate"]["amount"].value(),
                     numOfBedroom: try result["bedrooms"].value(),
                     numOfBathroom: try result["bathrooms"].value(),
@@ -88,6 +89,7 @@ class ViewController: UIViewController {
     }
     
     struct House {
+        let street: String
         let price: Int
         let numOfBedroom: Int
         let numOfBathroom: Double
