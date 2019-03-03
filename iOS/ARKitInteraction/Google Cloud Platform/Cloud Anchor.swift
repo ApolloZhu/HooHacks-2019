@@ -11,6 +11,8 @@ import Foundation
 import ARCore
 import Firebase
 
+let db = Firestore.firestore()
+
 extension CloudAnchorManager {
     public static let `default` = try! CloudAnchorManager(session: GARSession(
         apiKey: "AIzaSyBkMTw83P7hUfuFvVuMQcftX1p8QWzFxF4",

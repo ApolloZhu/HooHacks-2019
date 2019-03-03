@@ -9,6 +9,6 @@ target 'ARKitInteraction' do
   pod 'SWXMLHash'
   pod 'FloatingPanel'
   pod 'Firebase/Core'
-  pod 'Firebase/Database'
+  pod 'Firebase/Firestore'
   pod 'ARCore'
 end
