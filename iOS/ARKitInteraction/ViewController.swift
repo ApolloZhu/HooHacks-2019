@@ -1,9 +1,9 @@
 /*
-See LICENSE folder for this sample’s licensing information.
-
-Abstract:
-Main view controller for the AR experience.
-*/
+ See LICENSE folder for this sample’s licensing information.
+ 
+ Abstract:
+ Main view controller for the AR experience.
+ */
 
 import ARKit
 import SceneKit
@@ -16,8 +16,6 @@ import SWXMLHash
 
 class ViewController: UIViewController {
     static var current: ViewController!
-    
-    // HOOHACKS
     let manager = CLLocationManager()
     var centerCoord: CLLocation?
     var noMap: Bool { return mapNode == nil }
@@ -58,17 +56,17 @@ class ViewController: UIViewController {
                 return !placemark.isEmpty
             }
             guard let placemark = placemarks?.first(where: {
-                isValid($0.subThoroughfare) &&
-                isValid($0.thoroughfare) &&
-                isValid($0.locality) &&
-                isValid($0.administrativeArea)
+                return isValid($0.subThoroughfare)
+                    && isValid($0.thoroughfare)
+                    && isValid($0.locality)
+                    && isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
-            self.displayInformationForHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
-                                            in: placemark.locality! + "%2C " + placemark.administrativeArea!)
+            self.fetchInformationOfHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
+                                         in: placemark.locality! + "%2C " + placemark.administrativeArea!)
         }
     }
     
-    private func displayInformationForHouse(at street: String, in cityState: String) {
+    private func fetchInformationOfHouse(at street: String, in cityState: String) {
         var urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address=\(street)&citystatezip=\(cityState)"
         urlString = urlString.replacingOccurrences(of: " ", with: "+")
         guard let url = URL(string: urlString) else { return debugPrint("Not valid url") }
@@ -76,18 +74,28 @@ class ViewController: UIViewController {
             guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
             let xml = SWXMLHash.parse(data)
             let result = xml["SearchResults:searchresults"]["response"]["results"]["result"]
-            
+            do {
+                self.processHouse(House(
+                    price: try result["zestimate"]["amount"].value(),
+                    numOfBedroom: try result["bedrooms"].value(),
+                    numOfBathroom: try result["bathrooms"].value(),
+                    sqft: try result["finishedSqFt"].value()
+                ))
+            } catch {
+                debugPrint(error)
+            }
         }.resume()
     }
     
     struct House {
-        struct Zestimate {
-            let value: Int
-        }
-        var price = 0
-        var numOfBedroom = 0
-        var numOfBathroom = 0
-        var sqft = 0
+        let price: Int
+        let numOfBedroom: Int
+        let numOfBathroom: Double
+        let sqft: Int
+    }
+    
+    private func processHouse(_ house: House) {
+        print(house)
     }
     // HOOHACKS
     
@@ -98,7 +106,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var blurView: UIVisualEffectView!
     
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-
+    
     // MARK: - UI Elements
     
     var focusSquare = FocusSquare()
@@ -145,13 +153,13 @@ class ViewController: UIViewController {
         
         sceneView.delegate = self
         sceneView.session.delegate = self
-
+        
         // Set up scene content.
         setupCamera()
         sceneView.scene.rootNode.addChildNode(focusSquare)
         
         sceneView.setupDirectionalLighting(queue: updateQueue)
-
+        
         // Hook up status view controller callback(s).
         statusViewController.restartExperienceHandler = { [unowned self] in
             self.restartExperience()
@@ -162,30 +170,30 @@ class ViewController: UIViewController {
         tapGesture.delegate = self
         sceneView.addGestureRecognizer(tapGesture)
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Prevent the screen from being dimmed to avoid interuppting the AR experience.
         UIApplication.shared.isIdleTimerDisabled = true
-
+        
         // Start the `ARSession`.
         resetTracking()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         session.pause()
     }
-
+    
     // MARK: - Scene content setup
-
+    
     func setupCamera() {
         guard let camera = sceneView.pointOfView?.camera else {
             fatalError("Expected a valid `pointOfView` from the scene.")
         }
-
+        
         /*
          Enable HDR camera settings for the most realistic appearance
          with environmental lighting and physically based materials.
@@ -195,7 +203,7 @@ class ViewController: UIViewController {
         camera.minimumExposure = -1
         camera.maximumExposure = 3
     }
-
+    
     // MARK: - Session management
     
     /// Creates a new AR configuration to run on the `session`.
@@ -212,12 +220,12 @@ class ViewController: UIViewController {
             configuration.environmentTexturing = .automatic
         }
         session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-
+        
         statusViewController.scheduleMessage("FIND A SURFACE TO PLACE THE MAP", inSeconds: 7.5, messageType: .planeEstimation)
     }
-
+    
     // MARK: - Focus Square
-
+    
     func updateFocusSquare(isObjectVisible: Bool) {
         if !noMap {
             focusSquare.hide()
@@ -258,7 +266,7 @@ class ViewController: UIViewController {
         alertController.addAction(restartAction)
         present(alertController, animated: true, completion: nil)
     }
-
+    
 }
 
 // HOOHACKS
