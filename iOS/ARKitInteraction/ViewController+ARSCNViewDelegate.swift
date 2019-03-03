@@ -44,14 +44,11 @@ extension ViewController: ARSCNViewDelegate, ARSessionDelegate {
             self.lock.lock()
             defer { self.lock.unlock() }
             guard self.noMap else { return }
-            let scale = UIScreen.main.scale
-            let width = CGFloat(planeAnchor.extent.x) * scale
-            let height = CGFloat(planeAnchor.extent.z) * scale
-            let view = self.controller.view
-            let geo = SCNBox(width: width, height: 0.02, length: height, chamferRadius: 0.01)
-            geo.firstMaterial?.diffuse.contents = view
+            let sideLength = CGFloat(max(planeAnchor.extent.x, planeAnchor.extent.z))
+            let geo = SCNBox(width: sideLength, height: 0.02, length: sideLength,
+                             chamferRadius: 0.01)
+            geo.firstMaterial?.diffuse.contents = self.controller.view
             let node = SCNNode(geometry: geo)
-            node.position = SCNVector3(planeAnchor.center.x, 0, planeAnchor.center.z)
             self.mapNode = node
             self.sceneView.scene.rootNode.addChildNode(node)
             // HOOHACKS
