@@ -40,8 +40,40 @@ class ViewController: UIViewController {
             mapView.topAnchor.constraint(equalTo: controller.view.topAnchor),
             mapView.bottomAnchor.constraint(equalTo: controller.view.bottomAnchor)
         ])
+        let tapRecognizer = UITapGestureRecognizer()
+        tapRecognizer.addTarget(self, action: #selector(tapOnMap(_:)))
+        mapView.addGestureRecognizer(tapRecognizer)
         return controller
     }()
+    
+    private let geoCoder = CLGeocoder()
+    
+    @objc private func tapOnMap(_ recognizer: UITapGestureRecognizer) {
+        let coordinate = mapView.convert(recognizer.location(in: mapView), toCoordinateFrom: mapView)
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        geoCoder.reverseGeocodeLocation(location, preferredLocale: Locale(identifier: "en_US")) { (placemarks, error) in
+            func isValid(_ placemark: String?) -> Bool {
+                guard let placemark = placemark else { return false }
+                return !placemark.isEmpty
+            }
+            guard let placemark = placemarks?.first(where: {
+                isValid($0.subThoroughfare) &&
+                isValid($0.thoroughfare) &&
+                isValid($0.locality) &&
+                isValid($0.administrativeArea)
+            }) else { return debugPrint(error ?? "Error Retriving Placemark") }
+            self.displayInformationForHouse(at: "\(placemark.subThoroughfare!) \(placemark.thoroughfare!)",
+                                            in: placemark.locality!,
+                                            placemark.administrativeArea!)
+        }
+    }
+    
+    private func displayInformationForHouse(at street: String, in city: String, _ state: String) {
+        #warning("Sirena, your API call goes here")
+        // Equivalent of
+        // street + ", " + city + ", " + state
+        print("\(street), \(city), \(state)")
+    }
     // HOOHACKS
     
     // MARK: IBOutlets
