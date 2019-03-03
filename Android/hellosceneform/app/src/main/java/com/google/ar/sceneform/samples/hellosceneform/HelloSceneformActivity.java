@@ -42,6 +42,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * This is an example activity that uses the Sceneform UX package to make common AR tasks easier.
  */
@@ -73,16 +75,16 @@ public class HelloSceneformActivity extends AppCompatActivity implements OnMapRe
         // When you build a Renderable, Sceneform loads its resources in the background while returning
         // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
         ViewRenderable.builder()
-                .setView(this, R.layout.map_view)
+                .setView(this, R.layout.activity_main)
                 .build()
                 .thenAccept(renderable -> {
                     mapRenderable = renderable;
-                    MapView mapView = (MapView) renderable.getView();
-                    ViewGroup.LayoutParams param = mapView.getLayoutParams();
-                    param.width = 500;
-                    param.height = 500;
-                    mapView.setLayoutParams(param);
-                    mapView.getMapAsync(new MapViewActivity());
+//                    MapView mapView = (MapView) renderable.getView();
+//                    ViewGroup.LayoutParams param = mapView.getLayoutParams();
+//                    param.width = 500;
+//                    param.height = 500;
+//                    mapView.setLayoutParams(param);
+//                    mapView.getMapAsync(new MapViewActivity());
                 });
 
         arFragment.setOnTapArPlaneListener(

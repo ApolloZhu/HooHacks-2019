@@ -2,15 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.google.ar.sceneform.samples.hellosceneform">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <!-- Always needed for AR. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Always needed for AR. -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!--
  This tag indicates that this application requires ARCore. This results in the application
@@ -27,7 +24,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="false"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".MainActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,7 +39,7 @@
 
         <activity
             android:name=".MapViewActivity"
-            android:label="@string/title_activity_maps2"></activity>
+            android:label="@string/title_activity_maps2" />
         <!--
          This tag indicates that this application requires ARCore. This results in the
             application only being visible in the Google Play Store on devices that support
