@@ -69,21 +69,21 @@ class ViewController: UIViewController {
     }
     
     private func displayInformationForHouse(at street: String, in cityState: String) {
-        var urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address="+street+"&citystatezip="+cityState
-        urlString = urlString.replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
+        var urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address=\(street)&citystatezip=\(cityState)"
+        urlString = urlString.replacingOccurrences(of: " ", with: "+")
         guard let url = URL(string: urlString) else { return debugPrint("Not valid url") }
         URLSession.shared.dataTask(with: url) { data,_,err in
             guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
             let xml = SWXMLHash.parse(data)
-            print(xml)
-            
-            
-            
+            let result = xml["SearchResults:searchresults"]["response"]["results"]["result"]
             
         }.resume()
     }
     
-    private class House{
+    struct House {
+        struct Zestimate {
+            let value: Int
+        }
         var price = 0
         var numOfBedroom = 0
         var numOfBathroom = 0
