@@ -19,6 +19,8 @@
 		39D8DC1B1E8ADAE600386B05 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39D8DC1A1E8ADAE600386B05 /* LaunchScreen.storyboard */; };
 		52BEF011222B422E003A7C15 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52BEF010222B422E003A7C15 /* MapKit.framework */; };
 		52BEF014222BBD62003A7C15 /* HouseInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52BEF013222BBD62003A7C15 /* HouseInfoViewController.swift */; };
+		52C10839222BDCF900566417 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52C10838222BDCF900566417 /* GoogleService-Info.plist */; };
+		52C1083C222BE8E300566417 /* Cloud Anchor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C1083B222BE8E300566417 /* Cloud Anchor.swift */; };
 		C41366B91EB80DD400EC054A /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41366B81EB80DD400EC054A /* StatusViewController.swift */; };
 		C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42A71BC1E9C0AF200944367 /* FocusSquare.swift */; };
 		C46356671EF9CC500080C8D9 /* VirtualObjectARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C46356661EF9CC480080C8D9 /* VirtualObjectARView.swift */; };
@@ -46,6 +48,8 @@
 		39D8DC1A1E8ADAE600386B05 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52BEF010222B422E003A7C15 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		52BEF013222BBD62003A7C15 /* HouseInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HouseInfoViewController.swift; sourceTree = "<group>"; };
+		52C10838222BDCF900566417 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		52C1083B222BE8E300566417 /* Cloud Anchor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Cloud Anchor.swift"; sourceTree = "<group>"; };
 		C41366B81EB80DD400EC054A /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
 		C42A71BC1E9C0AF200944367 /* FocusSquare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusSquare.swift; sourceTree = "<group>"; };
 		C46356651EF9CB1A0080C8D9 /* VirtualObjectLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualObjectLoader.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 			children = (
 				C42A71BC1E9C0AF200944367 /* FocusSquare.swift */,
 				148832401EFC3B250043E0AB /* FocusSquareSegment.swift */,
+				C41366B81EB80DD400EC054A /* StatusViewController.swift */,
 			);
 			path = "Focus Square";
 			sourceTree = "<group>";
@@ -83,17 +88,10 @@
 		1488324A1EFC3E9C0043E0AB /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */,
 				39C0B9581E9C6B1F003FCA0C /* Utilities.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		1488324B1EFC3EBF0043E0AB /* Additional View Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				C41366B81EB80DD400EC054A /* StatusViewController.swift */,
-			);
-			path = "Additional View Controllers";
 			sourceTree = "<group>";
 		};
 		1488324C1EFC3ED00043E0AB /* Resources */ = {
@@ -102,6 +100,7 @@
 				3929C49E1E89EE4400E00B60 /* Models.scnassets */,
 				3929C4921E89EC2C00E00B60 /* Assets.xcassets */,
 				3929C4971E89EC2C00E00B60 /* Info.plist */,
+				52C10838222BDCF900566417 /* GoogleService-Info.plist */,
 				3929C48F1E89EC2C00E00B60 /* Main.storyboard */,
 				39D8DC1A1E8ADAE600386B05 /* LaunchScreen.storyboard */,
 			);
@@ -131,8 +130,8 @@
 		3929C48A1E89EC2C00E00B60 /* ARKitInteraction */ = {
 			isa = PBXGroup;
 			children = (
+				52C1083A222BE6DA00566417 /* Google Cloud Platform */,
 				52BEF012222BBD07003A7C15 /* HooHacks */,
-				3929C48B1E89EC2C00E00B60 /* AppDelegate.swift */,
 				3929C48D1E89EC2C00E00B60 /* ViewController.swift */,
 				C8C12A701F29277B00B011FE /* ViewController+ARSCNViewDelegate.swift */,
 				1488323E1EFC378A0043E0AB /* ViewController+Actions.swift */,
@@ -141,7 +140,6 @@
 				C46356661EF9CC480080C8D9 /* VirtualObjectARView.swift */,
 				C40DF57B1EC2330700D9D59E /* Virtual Objects */,
 				113B64D01ECA81CA0071CBD1 /* Focus Square */,
-				1488324B1EFC3EBF0043E0AB /* Additional View Controllers */,
 				1488324A1EFC3E9C0043E0AB /* Utilities */,
 				1488324C1EFC3ED00043E0AB /* Resources */,
 			);
@@ -163,6 +161,14 @@
 				52BEF013222BBD62003A7C15 /* HouseInfoViewController.swift */,
 			);
 			path = HooHacks;
+			sourceTree = "<group>";
+		};
+		52C1083A222BE6DA00566417 /* Google Cloud Platform */ = {
+			isa = PBXGroup;
+			children = (
+				52C1083B222BE8E300566417 /* Cloud Anchor.swift */,
+			);
+			path = "Google Cloud Platform";
 			sourceTree = "<group>";
 		};
 		AC33DCB88A0366DC0F8BC351 /* Pods */ = {
@@ -202,6 +208,7 @@
 				3929C4841E89EC2C00E00B60 /* Sources */,
 				3929C4851E89EC2C00E00B60 /* Frameworks */,
 				3929C4861E89EC2C00E00B60 /* Resources */,
+				58E24A9AB269D833ED8186EC /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -260,6 +267,7 @@
 			files = (
 				3929C49F1E89EE4400E00B60 /* Models.scnassets in Resources */,
 				39D8DC1B1E8ADAE600386B05 /* LaunchScreen.storyboard in Resources */,
+				52C10839222BDCF900566417 /* GoogleService-Info.plist in Resources */,
 				3929C4931E89EC2C00E00B60 /* Assets.xcassets in Resources */,
 				3929C4911E89EC2C00E00B60 /* Main.storyboard in Resources */,
 			);
@@ -268,6 +276,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		58E24A9AB269D833ED8186EC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ARCore/ARCoreResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ARCoreResources.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ARKitInteraction/Pods-ARKitInteraction-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		80F5E0D0B475F17FFA51EC5D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -310,6 +340,7 @@
 				C8D71A001F3B7D3D0086AD64 /* VirtualObject.swift in Sources */,
 				C42A71BD1E9C0AF200944367 /* FocusSquare.swift in Sources */,
 				3929C48C1E89EC2C00E00B60 /* AppDelegate.swift in Sources */,
+				52C1083C222BE8E300566417 /* Cloud Anchor.swift in Sources */,
 				C46356681EF9CC530080C8D9 /* VirtualObjectLoader.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
