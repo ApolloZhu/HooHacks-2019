@@ -64,20 +64,30 @@ class ViewController: UIViewController {
                 isValid($0.administrativeArea)
             }) else { return debugPrint(error ?? "Error Retriving Placemark") }
             self.displayInformationForHouse(at: placemark.subThoroughfare! + " " + placemark.thoroughfare!,
-                                            in: placemark.locality! + ", " + placemark.administrativeArea!)
+                                            in: placemark.locality! + "%2C " + placemark.administrativeArea!)
         }
     }
     
     private func displayInformationForHouse(at street: String, in cityState: String) {
-        var urlString = "https://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address="+street+"&citystatezip="+cityState
-        urlString = urlString
-            .replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
-            .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)! // Change , to %2C
-        guard let url = URL(string: "") else { return debugPrint("Not valid url") }
+        var urlString = "https://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=X1-ZWz1gxswfm3m6j_4lr3d&address="+street+"&citystatezip="+cityState
+        urlString = urlString.replacingOccurrences(of: " ", with: "+") // Replace all whitespace with + sign
+        guard let url = URL(string: urlString) else { return debugPrint("Not valid url") }
         URLSession.shared.dataTask(with: url) { data,_,err in
             guard let data = data else { return debugPrint(err ?? "Failed to fetch data from Zillow") }
             let xml = SWXMLHash.parse(data)
+            print(xml)
+            
+            
+            
+            
         }.resume()
+    }
+    
+    private class House{
+        var price = 0
+        var numOfBedroom = 0
+        var numOfBathroom = 0
+        var sqft = 0
     }
     // HOOHACKS
     
